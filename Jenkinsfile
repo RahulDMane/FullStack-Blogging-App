@@ -64,9 +64,11 @@ pipeline {
 
         stage('Docker Build & Tag') {
             steps { 
+                script{
                 withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                     sh "docker build -t rahulmane23/bloggingapp:latest ."
                 }
+                      }
             }
         }
 
@@ -78,9 +80,11 @@ pipeline {
 
         stage('Docker Push Image') { 
             steps {
+                script{
                 withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                     sh "docker push rahulmane23/bloggingapp:latest"
                 }
+            }
             }
         }
     }
