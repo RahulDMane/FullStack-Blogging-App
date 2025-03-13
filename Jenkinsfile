@@ -87,5 +87,18 @@ pipeline {
             }
             }
         }
+         stage('k8-deploy')
+         { withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://B675AB60C0AE930A6091154735ADBB7A.gr7.ap-south-1.eks.amazonaws.com') 
+         {  sh "kubectl apply -f deployment-service.yml"
+            sleep 20
+         }     
+         }
+    stage('Verify Deployment')
+         { withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://B675AB60C0AE930A6091154735ADBB7A.gr7.ap-south-1.eks.amazonaws.com') 
+         {  sh "kubectl get pods"
+            sh "kubectl get svc"
+          
+         }     
+         }
     }
 }
